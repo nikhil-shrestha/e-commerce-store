@@ -5,17 +5,17 @@ import { createStructuredSelector } from 'reselect';
 
 import './App.css';
 
-import HomePage from './pages/homepage/homepage';
-import ShopPage from './pages/shop/shop';
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
-import CheckoutPage from './pages/checkout/checkout';
+import HomePage from './pages/homepage/homepage.component';
+import ShopPage from './pages/shop/shop.component';
+import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import CheckoutPage from './pages/checkout/checkout.component';
 
-import Header from './components/header/header';
+import Header from './components/header/header.component';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 class App extends Component {
   unsubscribeFromAuth = null;
@@ -36,10 +36,6 @@ class App extends Component {
       }
 
       setCurrentUser(userAuth);
-      // addCollectionAndDocuments(
-      //   'collections',
-      //   collectionsArray.map(({ title, items }) => ({ title, items }))
-      // );
     });
   }
 
@@ -56,6 +52,7 @@ class App extends Component {
           <Route path="/shop" component={ShopPage} />
           <Route exact path="/checkout" component={CheckoutPage} />
           <Route
+            exact
             path="/signin"
             render={() =>
               this.props.currentUser ? (
@@ -72,8 +69,7 @@ class App extends Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-  collectionsArray: selectCollectionsForPreview
+  currentUser: selectCurrentUser
 });
 
 const mapDispatchToProps = dispatch => ({
